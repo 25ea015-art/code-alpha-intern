@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Calculator</title>
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #4a4848;
+        font-family: Arial;
+      }
+
+      .calculator {
+        background: #b878a5;
+        padding: 18px;
+        border-radius: 18px;
+        box-shadow: 0 10px 25px rgba(241, 129, 241, 0.7);
+        width: 320px;
+      }
+
+      .display {
+        width: 100%;
+        height: 70px;
+        margin-bottom: 12px;
+        background: #a994a6;
+        color: #e5e7eb;
+        font-size: 32px;
+        border: none;
+        text-align: right;
+        padding: 8px;
+        border-radius: 12px;
+        outline: none;
+      }
+
+      .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      button {
+        padding: 18px;
+        font-size: 18px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        background: #020617;
+        color: #f9fafb;
+        transition:
+          transform 0.15s,
+          background 0.15s;
+      }
+
+      button:active {
+        transform: scale(0.95);
+      }
+
+      .operator {
+        color: #38bdf8;
+      }
+      .equal {
+        background: #38bdf8;
+        color: #020617;
+        font-weight: bold;
+      }
+      .clear {
+        color: #fb7185;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="calculator">
+      <div class="display">
+        <input type="text" id="display" disabled />
+      </div>
+
+      <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button onclick="backspace()">⌫</button>
+        <button onclick="append('%')" class="operator">%</button>
+        <button onclick="append('/')" class="operator">÷</button>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('*')" class="operator">×</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('-')" class="operator">−</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="append('+')" class="operator">+</button>
+
+        <button onclick="append('0')" style="grid-column: span 2">0</button>
+        <button onclick="append('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+      </div>
+    </div>
+
+    <script>
+      const display = document.getElementById("display");
+
+      function append(value) {
+        display.value += value;
+      }
+
+      function clearDisplay() {
+        display.value = "";
+      }
+
+      function backspace() {
+        display.value = display.value.slice(0, -1);
+      }
+
+      function calculate() {
+        try {
+          display.value = eval(display.value);
+        } catch {
+          display.value = "Error";
+        }
+      }
+
+      // Keyboard Support
+      document.addEventListener("keydown", (e) => {
+        const keys = "0123456789+-*/.%";
+        if (keys.includes(e.key)) append(e.key);
+        if (e.key === "Enter") calculate();
+        if (e.key === "Backspace") backspace();
+        if (e.key === "Escape") clearDisplay();
+      });
+    </script>
+  </body>
+</html>
